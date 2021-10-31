@@ -6,5 +6,9 @@
 #include <stdbool.h>
 #include <iostream>
 #include <fstream>
+#include <sys/file.h>
+#include <cstdio>
+
+#define LOCK_FILE "./lock/matt_daemon.lock"
 
 #endif
