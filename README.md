@@ -4,7 +4,7 @@ Introduction to daemons
 
 **Usage :**
 - [x] L’exécutable devra se nommer Matt_daemon.
-- [ ] Le programme va se lancer uniquement avec les droits root.
+- [x] Le programme va se lancer uniquement avec les droits root.
 - [ ] Votre programme devra s’exécuter en tâche de fond à la façon d’un vrai daemon.
 - [ ] Le daemon va devoir écouter sur le port 4242.
 - [ ] Pour la journalisation de votre daemon, il sera impératif de créer une classe appe-léeTintin_reporter(celle-ci pourra vous re-servir dans de futurs projets).

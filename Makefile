@@ -1,16 +1,21 @@
 # https://stackoverflow.com/questions/2481269/how-to-make-a-simple-c-makefile
 
+DIR_SRC= src/
+DIR_HEADERS= headers/
+
 # built-in rules
 CXX= clang++
-CXXFLAGS= -Wall -Wextra -Werror
+CXXFLAGS= -Wall -Wextra -Werror -I $(DIR_HEADERS) 
 
 RM= rm -rf
 
-DIR_SRC= src/
-C_FILES_NAME= main
+SRCS_RAW= main
 
-SRCS_C_FILES = $(addprefix $(DIR_SRC), $(C_FILES_NAME:=.cpp))
-OBJS=$(subst .cpp,.o,$(SRCS_C_FILES))
+SRCS = $(addprefix $(DIR_SRC), $(SRCS_RAW:=.cpp))
+OBJS=$(subst .cpp,.o,$(SRCS))
+
+HEADERS_RAW= $(BASE)
+HEADERS=$(addprefix $(DIR_HEADERS), $(HEADERS_RAW:=.hpp))
 
 NAME= Matt_daemon
 
@@ -18,7 +23,7 @@ NAME= Matt_daemon
 all: $(NAME)
 
 # implicitly apply CXXFLAGS
-$(NAME): $(OBJS) Makefile
+$(NAME): $(OBJS) $(HEADERS) Makefile
 	$(CXX) -o $(NAME) $(OBJS)
 
 .PHONY: clean
