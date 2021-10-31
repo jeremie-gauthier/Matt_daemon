@@ -1,7 +1,7 @@
 # https://stackoverflow.com/questions/2481269/how-to-make-a-simple-c-makefile
 
 DIR_SRC= src/
-DIR_HEADERS= headers/
+DIR_HEADERS= includes/
 
 # built-in rules
 CXX= clang++
@@ -9,12 +9,15 @@ CXXFLAGS= -Wall -Wextra -Werror -I $(DIR_HEADERS)
 
 RM= rm -rf
 
-SRCS_RAW= main
+SRCS_RAW= main\
+					daemon
 
 SRCS = $(addprefix $(DIR_SRC), $(SRCS_RAW:=.cpp))
 OBJS=$(subst .cpp,.o,$(SRCS))
 
-HEADERS_RAW= $(BASE)
+HEADERS_RAW=	common\
+							daemon
+
 HEADERS=$(addprefix $(DIR_HEADERS), $(HEADERS_RAW:=.hpp))
 
 NAME= Matt_daemon

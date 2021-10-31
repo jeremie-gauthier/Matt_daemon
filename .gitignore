@@ -34,3 +34,5 @@
 .vscode/
 
 Matt_daemon
+*.txt
+lock/

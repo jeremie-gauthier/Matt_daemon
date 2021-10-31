@@ -1,64 +1,68 @@
 #include "common.hpp"
+#include "daemon.hpp"
 
 static bool isRoot()
 {
   return getuid() == 0;
 }
 
-void eventLoop()
+static bool checkRoot()
 {
-  std::ofstream myfile("example.txt");
-
-  while (true)
+  if (!isRoot())
   {
-    if (isRoot())
-    {
-      myfile << "Root" << std::endl;
-    }
-    else
-    {
-      myfile << "Not root" << std::endl;
-    }
-    sleep(1);
+    std::cerr << "Permission denied" << std::endl;
+    return false;
   }
+  return true;
+};
 
-  myfile.close();
-}
-
-int main(void)
+static int checkDaemonLockFile()
 {
-  const bool is_root_user = isRoot();
-
-  if (is_root_user)
-  {
-    std::cout << "You are root user.\n";
-  }
-  else
-  {
-    std::cout << "You are not root user.\n";
-  }
-
-  std::cout << "Hello World!" << std::endl;
-
-  const int fd = open(LOCK_FILE, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-  const int lock = flock(fd, LOCK_EX | LOCK_NB);
+  const int pid_lock_file = open(LOCK_FILE, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  const int lock = flock(pid_lock_file, LOCK_EX | LOCK_NB);
 
   if (lock && errno == EWOULDBLOCK)
   {
-    std::cout << "Only one instance of matt_daemon is possible" << std::endl;
-    close(fd);
+    std::cerr << "matt_daemon is already running" << std::endl;
+    close(pid_lock_file);
     return -1;
   }
+  return pid_lock_file;
+}
 
+static bool startDaemon(const int pid_lock_file)
+{
   const pid_t pid = fork();
+
+  if (pid == -1)
+  {
+    std::cerr << "Cannot create daemon process" << std::endl;
+    return false;
+  }
+
   if (pid == 0)
   {
     eventLoop();
   }
   else
   {
-    dprintf(fd, "%d", pid);
-    close(fd);
+    dprintf(pid_lock_file, "%d", pid);
+    close(pid_lock_file);
   }
-  return 0;
+  return true;
+}
+
+int main(void)
+{
+  if (!checkRoot())
+    return EXIT_FAILURE;
+
+  const int pid_lock_file = checkDaemonLockFile();
+  if (pid_lock_file == -1)
+    return EXIT_FAILURE;
+
+  if (!startDaemon(pid_lock_file))
+    return EXIT_FAILURE;
+
+  return EXIT_SUCCESS;
 }
