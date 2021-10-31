@@ -3,9 +3,15 @@
 
 #include "common.hpp"
 #include <ctime>
+#include <sstream>
 
+// #define LOG_FILE_PARENT_DIR "/var"
+#define LOG_FILE_DIR "log"
+#define LOG_FILE_NAME "matt_daemon.log"
 // #define LOG_FILE "/var/log/matt_daemon.log"
-#define LOG_FILE "log/matt_daemon.log"
+
+#define LOG_FILE_PARENT_DIR "."
+#define LOG_FILE "./log/matt_daemon.log"
 
 class Tintin_reporter
 {

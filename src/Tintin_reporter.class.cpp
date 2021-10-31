@@ -1,11 +1,11 @@
 #include "Tintin_reporter.class.hpp"
-#include <iostream>
-#include <sstream>
-#include <iomanip>
+
 // CTORS / DTORS
 
 Tintin_reporter::Tintin_reporter(void)
 {
+  if (stat(LOG_FILE_DIR, NULL) == -1)
+    mkdir(LOG_FILE_DIR, 0755);
   this->log_file.open(LOG_FILE, std::ios::out | std::ios::app);
 }
 
