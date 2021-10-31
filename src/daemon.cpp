@@ -1,14 +1,11 @@
 #include "common.hpp"
+#include "Tintin_reporter.class.hpp"
 
 void eventLoop()
 {
-  std::ofstream myfile("example.txt");
-
   while (true)
   {
-    myfile << "Hello from daemon !" << std::endl;
+    Tintin_reporter::info("daemon is running");
     sleep(1);
   }
-
-  myfile.close();
 }

@@ -35,4 +35,6 @@
 
 Matt_daemon
 *.txt
+*.log
 lock/
+log/

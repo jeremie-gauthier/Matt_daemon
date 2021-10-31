@@ -5,18 +5,20 @@ DIR_HEADERS= includes/
 
 # built-in rules
 CXX= clang++
-CXXFLAGS= -Wall -Wextra -Werror -I $(DIR_HEADERS) 
+CXXFLAGS= -Wall -Wextra -Werror -std=c++11 -I $(DIR_HEADERS) 
 
 RM= rm -rf
 
 SRCS_RAW= main\
-					daemon
+					daemon\
+					Tintin_reporter.class
 
 SRCS = $(addprefix $(DIR_SRC), $(SRCS_RAW:=.cpp))
 OBJS=$(subst .cpp,.o,$(SRCS))
 
 HEADERS_RAW=	common\
-							daemon
+							daemon\
+							Tintin_reporter.class
 
 HEADERS=$(addprefix $(DIR_HEADERS), $(HEADERS_RAW:=.hpp))
 
