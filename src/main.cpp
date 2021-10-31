@@ -1,4 +1,3 @@
-#include "common.hpp"
 #include "daemon.hpp"
 #include <cstdio>
 
@@ -20,6 +19,9 @@ static bool checkRoot()
 
 static int checkDaemonLockFile()
 {
+  if (stat(LOCK_FILE_DIR, NULL) == -1)
+    mkdir(LOCK_FILE_DIR, 0755);
+
   const int pid_lock_file = open(LOCK_FILE, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
   const int lock = flock(pid_lock_file, LOCK_EX | LOCK_NB);
 
