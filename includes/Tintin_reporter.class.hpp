@@ -27,6 +27,11 @@ public:
     Tintin_reporter::getInstance().write(" [ INFO ] " + message);
   }
 
+  static void log(const std::string &message)
+  {
+    Tintin_reporter::getInstance().write(" [ LOG ] " + message);
+  }
+
   static void error(const std::string &message)
   {
     Tintin_reporter::getInstance().write(" [ ERROR ] " + message);
