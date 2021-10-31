@@ -1,7 +1,6 @@
 # Matt_daemon
 Introduction to daemons
 
-
 **Usage :**
 - [x] L’exécutable devra se nommer Matt_daemon.
 - [x] Le programme va se lancer uniquement avec les droits root. // REMETTRE LA CONDITION GETUID

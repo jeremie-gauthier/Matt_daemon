@@ -25,6 +25,8 @@ static void quitEventLoop(int signo)
 void eventLoop()
 {
   std::signal(SIGTERM, quitEventLoop);
+  std::signal(SIGINT, quitEventLoop);
+  std::signal(SIGQUIT, quitEventLoop);
 
   while (true)
   {
