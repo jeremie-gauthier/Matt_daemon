@@ -5,13 +5,13 @@ static void quitEventLoop(int signo)
   switch (signo)
   {
   case SIGTERM:
-    Tintin_reporter::info("received SIGTERM. Exiting...");
+    Tintin_reporter::info("Received SIGTERM. Exiting...");
     break;
   case SIGINT:
-    Tintin_reporter::info("received SIGINT. Exiting...");
+    Tintin_reporter::info("Received SIGINT. Exiting...");
     break;
   case SIGQUIT:
-    Tintin_reporter::info("received SIGQUIT. Exiting...");
+    Tintin_reporter::info("Received SIGQUIT. Exiting...");
     break;
   default:
     Tintin_reporter::info("Exiting...");
@@ -25,10 +25,25 @@ static void quitEventLoop(int signo)
 void eventLoop()
 {
   std::signal(SIGTERM, quitEventLoop);
+  std::signal(SIGINT, quitEventLoop);
+  std::signal(SIGQUIT, quitEventLoop);
 
-  while (true)
+  Listener listener;
+
+  try
   {
-    Tintin_reporter::info("daemon is running");
-    sleep(1);
+    listener.listen();
   }
+  catch (const std::exception &e)
+  {
+    const std::string error(e.what());
+    Tintin_reporter::error(error);
+    return quitEventLoop(-1);
+  }
+
+  // while (true)
+  // {
+  //   Tintin_reporter::info("daemon is running");
+  //   sleep(1);
+  // }
 }

@@ -11,14 +11,16 @@ RM= rm -rf
 
 SRCS_RAW= main\
 					daemon\
-					Tintin_reporter.class
+					Tintin_reporter.class\
+					Listener.class\
 
 SRCS = $(addprefix $(DIR_SRC), $(SRCS_RAW:=.cpp))
 OBJS=$(subst .cpp,.o,$(SRCS))
 
 HEADERS_RAW=	common\
 							daemon\
-							Tintin_reporter.class
+							Tintin_reporter.class\
+							Listener.class\
 
 HEADERS=$(addprefix $(DIR_HEADERS), $(HEADERS_RAW:=.hpp))
 

@@ -1,12 +1,11 @@
 # Matt_daemon
 Introduction to daemons
 
-
 **Usage :**
 - [x] L’exécutable devra se nommer Matt_daemon.
 - [x] Le programme va se lancer uniquement avec les droits root. // REMETTRE LA CONDITION GETUID
 - [x] Votre programme devra s’exécuter en tâche de fond à la façon d’un vrai daemon.
-- [ ] Le daemon va devoir écouter sur le port 4242.
+- [x] Le daemon va devoir écouter sur le port 4242.
 - [x] Pour la journalisation de votre daemon, il sera impératif de créer une classe appelée Tintin_reporter (celle-ci pourra vous re-servir dans de futurs projets).
 - [x] Tout ce que le daemon fait doit être visible dans un fichier de log matt_daemon.log avec timestamp (sous la forme [ DD / MM / YYYY - HH : MM : SS]) situé dans le dossier /var/log/matt_daemon/.
 - [ ] Vous avez la possibilité de créer plusieurs fichiers de logs si vous le souhaitez.
@@ -15,9 +14,9 @@ Introduction to daemons
 - [x] Un fichier matt_daemon.lock doit être créé dans /var/lock/ au lancement du daemon.
 - [x] À la fermeture du daemon le fichier matt_daemon.lock doit être effacé.
 - [ ] La fermeture du programme doit se faire par l’envoi d’une simple chaîne de caractère "quit" sur le socket ouvert.
-- [ ] Toute autre chaîne de caractère doit être inscrite dans le fichier de log.
-- [ ] Seuls 3 clients peuvent se connecter en simultané sur le daemon.
-- [ ] Lorsque le daemon reçoit un signal, il doit l’intercepter et l’inscrire dans le fichier matt_daemon.log avec un message explicite, puis quitter proprement.
+- [x] Toute autre chaîne de caractère doit être inscrite dans le fichier de log.
+- [x] Seuls 3 clients peuvent se connecter en simultané sur le daemon.
+- [x] Lorsque le daemon reçoit un signal, il doit l’intercepter et l’inscrire dans le fichier matt_daemon.log avec un message explicite, puis quitter proprement.
 
 **Des idées de bonus :**
 - [ ] Créer un client graphique pour interagir avec le daemon .
