@@ -13,6 +13,7 @@
 #define PORT 4242
 #define MAX_CLIENTS 3
 #define BUFFER_SIZE 1024
+#define QUIT_COMMAND "quit"
 
 class Listener
 {
