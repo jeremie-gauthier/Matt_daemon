@@ -13,7 +13,7 @@ Introduction to daemons
 - [x] Lors de la tentative de lancement d’un second daemon alors qu’une instance de celui-ci est déjà en cours, un message d’erreur indiquant une tentative de création/ouverture de fichier sur matt_daemon.lock doit être visible.
 - [x] Un fichier matt_daemon.lock doit être créé dans /var/lock/ au lancement du daemon.
 - [x] À la fermeture du daemon le fichier matt_daemon.lock doit être effacé.
-- [ ] La fermeture du programme doit se faire par l’envoi d’une simple chaîne de caractère "quit" sur le socket ouvert.
+- [x] La fermeture du programme doit se faire par l’envoi d’une simple chaîne de caractère "quit" sur le socket ouvert.
 - [x] Toute autre chaîne de caractère doit être inscrite dans le fichier de log.
 - [x] Seuls 3 clients peuvent se connecter en simultané sur le daemon.
 - [x] Lorsque le daemon reçoit un signal, il doit l’intercepter et l’inscrire dans le fichier matt_daemon.log avec un message explicite, puis quitter proprement.

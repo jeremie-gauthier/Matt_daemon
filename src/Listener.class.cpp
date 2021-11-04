@@ -68,8 +68,7 @@ int Listener::registerNewSocket(const int client_socket_fd)
     if (this->clients[i] == 0)
     {
       this->clients[i] = client_socket_fd;
-      Tintin_reporter::log("...registered the new connection");
-      printf("Adding to list of sockets as %d\n", i);
+      Tintin_reporter::log("Register incoming connection");
       return i;
     }
   }
@@ -91,10 +90,8 @@ void Listener::handleNewConnection(void) throw(std::runtime_error)
              (socklen_t *)&sockaddrSize)) < 0)
       throw std::runtime_error("accept() failed");
 
-    Tintin_reporter::log("Incoming connection...");
-
     if (this->registerNewSocket(client_socket_fd) < 0)
-      Tintin_reporter::error("...cannot register the new connection (no space left)");
+      Tintin_reporter::error("Cannot register incoming connection (no space left)");
   }
 }
 
@@ -111,24 +108,17 @@ void Listener::handleSockOperation(void)
 
     if (FD_ISSET(client_sock_fd, &this->read_fds))
     {
-      // Check if it was for closing , and also read the
-      // incoming message
       int read_bytes = recv(client_sock_fd, buffer, BUFFER_SIZE, 0);
+      buffer[read_bytes - 1] = '\0';
 
-      if (read_bytes <= 0)
+      if (read_bytes <= 0 || strcmp(buffer, QUIT_COMMAND) == 0)
       {
-        // Close the socket and mark as 0 in list for reuse
         close(client_sock_fd);
         this->clients[i] = 0;
         Tintin_reporter::log("Close user connection");
       }
-
-      // Echo back the message that came in
       else
       {
-        // set the string terminating NULL byte on the end
-        // of the data read
-        buffer[read_bytes] = '\0';
         const std::string client_msg(buffer);
         Tintin_reporter::log("User input:" + client_msg);
       }
