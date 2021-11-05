@@ -3,8 +3,7 @@
 
 static bool isRoot()
 {
-  // return getuid() == 0;
-  return true;
+  return getuid() == 0;
 }
 
 static bool checkRoot()
