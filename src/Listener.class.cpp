@@ -10,16 +10,16 @@ Listener::Listener(void) throw(std::runtime_error)
   this->socket_in.sin_addr.s_addr = htonl(INADDR_ANY);
   this->socket_in.sin_port = htons(PORT);
 
-  this->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-  if (this->socket_fd == -1)
+  this->srv_socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+  if (this->srv_socket_fd == -1)
     throw std::runtime_error("socket() failed");
 
   int opt = 1;
-  if (setsockopt(this->socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt,
+  if (setsockopt(this->srv_socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt,
                  sizeof(opt)) != 0)
     throw std::runtime_error("setsockopt() failed");
 
-  if (bind(this->socket_fd, (struct sockaddr *)&this->socket_in, sockaddrSize) == -1)
+  if (bind(this->srv_socket_fd, (struct sockaddr *)&this->socket_in, sockaddrSize) == -1)
     throw std::runtime_error("bind() failed");
 
   bzero(this->clients, sizeof(this->clients));
@@ -27,7 +27,7 @@ Listener::Listener(void) throw(std::runtime_error)
 
 Listener::~Listener(void)
 {
-  close(this->socket_fd);
+  close(this->srv_socket_fd);
 }
 
 // OPERATORS
@@ -36,13 +36,13 @@ Listener::~Listener(void)
 
 int Listener::updateSockets(void)
 {
-  int max_fd = this->socket_fd;
+  int max_fd = this->srv_socket_fd;
 
   // FD_ZERO() efface un ensemble.
   FD_ZERO(&this->read_fds);
 
   // FD_SET() ajoute un descripteur de fichier dans un ensemble.
-  FD_SET(this->socket_fd, &this->read_fds);
+  FD_SET(this->srv_socket_fd, &this->read_fds);
 
   //add child sockets to set
   for (int i = 0; i < MAX_CLIENTS; i++)
@@ -82,16 +82,19 @@ void Listener::handleNewConnection(void) throw(std::runtime_error)
   int client_socket_fd;
 
   // FD_ISSET() vérifie si un descripteur de fichier est contenu dans un ensemble, principalement utile après le retour de select().
-  if (FD_ISSET(this->socket_fd, &this->read_fds))
+  if (FD_ISSET(this->srv_socket_fd, &this->read_fds))
   {
     if ((client_socket_fd = accept(
-             this->socket_fd,
+             this->srv_socket_fd,
              (struct sockaddr *)&clientSocketAddress,
              (socklen_t *)&sockaddrSize)) < 0)
       throw std::runtime_error("accept() failed");
 
     if (this->registerNewSocket(client_socket_fd) < 0)
+    {
+      close(client_socket_fd);
       Tintin_reporter::error("Cannot register incoming connection (no space left)");
+    }
   }
 }
 
@@ -128,7 +131,7 @@ void Listener::handleSockOperation(void)
 
 void Listener::listen(void) throw(std::runtime_error)
 {
-  if (::listen(this->socket_fd, MAX_CLIENTS) == -1)
+  if (::listen(this->srv_socket_fd, MAX_CLIENTS) == -1)
     throw std::runtime_error("listen() failed");
 
   while (true)

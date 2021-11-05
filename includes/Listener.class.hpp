@@ -30,8 +30,7 @@ public:
 private:
   struct sockaddr_in socket_in;
 
-  int socket_fd;
-  // int active_conn;
+  int srv_socket_fd;
   int clients[MAX_CLIENTS];
   fd_set read_fds;
 
