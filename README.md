@@ -8,7 +8,7 @@ Introduction to daemons
 - [x] Le daemon va devoir écouter sur le port 4242.
 - [x] Pour la journalisation de votre daemon, il sera impératif de créer une classe appelée Tintin_reporter (celle-ci pourra vous re-servir dans de futurs projets).
 - [x] Tout ce que le daemon fait doit être visible dans un fichier de log matt_daemon.log avec timestamp (sous la forme [ DD / MM / YYYY - HH : MM : SS]) situé dans le dossier /var/log/matt_daemon/.
-- [ ] Vous avez la possibilité de créer plusieurs fichiers de logs si vous le souhaitez.
+- [ ] Vous avez la possibilité de créer plusieurs fichiers de logs si vous le souhaitez. (optional)
 - [x] Une seule instance du daemon doit pouvoir être lancée.
 - [x] Lors de la tentative de lancement d’un second daemon alors qu’une instance de celui-ci est déjà en cours, un message d’erreur indiquant une tentative de création/ouverture de fichier sur matt_daemon.lock doit être visible.
 - [x] Un fichier matt_daemon.lock doit être créé dans /var/lock/ au lancement du daemon.
